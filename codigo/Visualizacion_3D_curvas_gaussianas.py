@@ -24,6 +24,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
 import os
+from mpl_toolkits.mplot3d import axes3d, Axes3D
+
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -60,24 +62,23 @@ class Visualizacion3D:
         posiciones = np.vstack([self.xx.ravel(), self.yy.ravel()])
         values = np.vstack([self.x, self.y])
         kernel = st.gaussian_kde(values)
-        f = np.reshape(kernel(posiciones).T, xx.shape)
+        f = np.reshape(kernel(posiciones).T, self.xx.shape)
 
         fig = plt.figure(figsize=(8,8))
         ax = fig.gca()
-        ax.set_xlim(xmin, xmax)
-        ax.set_ylim(ymin, ymax)
-        cfset = ax.contourf(xx, yy, f, cmap='coolwarm')
-        ax.imshow(np.rot90(f), cmap='coolwarm', extent=[xmin, xmax, ymin, ymax])
-        cset = ax.contour(xx, yy, f, colors='k')
+        ax.set_xlim(self.xmin, self.xmax)
+        ax.set_ylim(self.ymin, self.ymax)
+        cfset = ax.contourf(self.xx, self.yy, f, cmap='coolwarm')
+        ax.imshow(np.rot90(f), cmap='coolwarm', extent=[self.xmin, self.xmax, self.ymin, self.ymax])
+        cset = ax.contour(self.xx, self.yy, f, colors='k')
         ax.clabel(cset, inline=1, fontsize=10)
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         plt.show()
 
-        from mpl_toolkits.mplot3d import axes3d, Axes3D
         fig = plt.figure(figsize=(13, 7))
         ax = plt.axes(projection='3d')
-        surf = ax.plot_surface(xx, yy, f, rstride=1, cstride=1, cmap='coolwarm', edgecolor='none')
+        surf = ax.plot_surface(self.xx, self.yy, f, rstride=1, cstride=1, cmap='coolwarm', edgecolor='none')
         ax.set_xlabel('x')
         ax.set_ylabel('y')
         fig.colorbar(surf, shrink=0.5, aspect=5) # añadir barra de color indicando el PDF
