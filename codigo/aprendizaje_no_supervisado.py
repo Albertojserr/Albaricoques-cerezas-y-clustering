@@ -116,9 +116,10 @@ class Aprendizaje:
         plt.scatter(self.frutas.DIAMETRO, self.frutas.PESO, c=clusteres, s=40, cmap='viridis');
         plt.xlabel("DIAMETRO")
         plt.ylabel("PESO")
+        plt.title("Mezcla Gaussiana")
         plt.show()
     @staticmethod
-    def ejecutar():
+    def ejecutarKMeans():
         apr=Aprendizaje()
         #primer plot con los datos de las frutas
         apr.vis()
@@ -126,9 +127,15 @@ class Aprendizaje:
         apr.aprKMeans()
         apr.clasificaciones()
         apr.busqueda()
-        #tercer plot, tiene mayor precisión
+    @staticmethod
+    def ejecutarGauss():
+        apr=Aprendizaje()
         apr.Gauss()
-
-if __name__=="__main__":
-    aprendizaje=Aprendizaje()
-    aprendizaje.ejecutar()
+    @staticmethod
+    def ejecutar():
+        aprendizaje=Aprendizaje()
+        eleccion=input("Elige: [KMeans,Gauss]")
+        if eleccion.lower()=="kmeans":
+            aprendizaje.ejecutarKMeans()
+        else:
+            aprendizaje.ejecutarGauss()
