@@ -93,5 +93,4 @@ class Visualizacion3D:
         vis.meshgrid()
 
 if __name__=='__main__':
-    vis=Visualizacion3D()
-    vis.ejecutar()
+    Visualizacion3D.ejecutar()

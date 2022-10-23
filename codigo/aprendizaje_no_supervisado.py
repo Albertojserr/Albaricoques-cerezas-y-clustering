@@ -27,13 +27,14 @@ from sklearn.cluster import KMeans
 
 from sklearn import mixture
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-print(dir_path)
+
 #para cogerlo de otra carpeta usamos lo siguiente
 #dir_path=dir_path+"/../teoria"
 #Carga de datos
 class Aprendizaje:
     def __init__(self):
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        print(dir_path)
         self.frutas = pnd.read_csv(dir_path+"/datas/frutas.csv", names=['DIAMETRO','PESO'], header=None)
     def vis(self):
 #Visualización gráfica de los datos
@@ -133,9 +134,12 @@ class Aprendizaje:
         apr.Gauss()
     @staticmethod
     def ejecutar():
-        aprendizaje=Aprendizaje()
         eleccion=input("Elige: [KMeans,Gauss]")
         if eleccion.lower()=="kmeans":
-            aprendizaje.ejecutarKMeans()
+            Aprendizaje.ejecutarKMeans()
         else:
-            aprendizaje.ejecutarGauss()
+            Aprendizaje.ejecutarGauss()
+
+
+if __name__=="__main__":
+    Aprendizaje.ejecutar()
