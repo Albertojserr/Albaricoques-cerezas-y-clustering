@@ -57,20 +57,20 @@ class Visualizacion3D:
 
     # Crear meshgrid
     def meshgrid(self):
-        self.xx, self.yy = np.mgrid[self.xmin:self.xmax:100j, self.ymin:self.ymax:100j]
+        xx, yy = np.mgrid[self.xmin:self.xmax:100j, self.ymin:self.ymax:100j]
 
-        posiciones = np.vstack([self.xx.ravel(), self.yy.ravel()])
+        posiciones = np.vstack([xx.ravel(), yy.ravel()])
         values = np.vstack([self.x, self.y])
         kernel = st.gaussian_kde(values)
-        f = np.reshape(kernel(posiciones).T, self.xx.shape)
+        f = np.reshape(kernel(posiciones).T, xx.shape)
 
         fig = plt.figure(figsize=(8,8))
         ax = fig.gca()
         ax.set_xlim(self.xmin, self.xmax)
         ax.set_ylim(self.ymin, self.ymax)
-        cfset = ax.contourf(self.xx, self.yy, f, cmap='coolwarm')
+        cfset = ax.contourf(xx, yy, f, cmap='coolwarm')
         ax.imshow(np.rot90(f), cmap='coolwarm', extent=[self.xmin, self.xmax, self.ymin, self.ymax])
-        cset = ax.contour(self.xx, self.yy, f, colors='k')
+        cset = ax.contour(xx, yy, f, colors='k')
         ax.clabel(cset, inline=1, fontsize=10)
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
@@ -78,7 +78,7 @@ class Visualizacion3D:
 
         fig = plt.figure(figsize=(13, 7))
         ax = plt.axes(projection='3d')
-        surf = ax.plot_surface(self.xx, self.yy, f, rstride=1, cstride=1, cmap='coolwarm', edgecolor='none')
+        surf = ax.plot_surface(xx, yy, f, rstride=1, cstride=1, cmap='coolwarm', edgecolor='none')
         ax.set_xlabel('x')
         ax.set_ylabel('y')
         fig.colorbar(surf, shrink=0.5, aspect=5) # añadir barra de color indicando el PDF

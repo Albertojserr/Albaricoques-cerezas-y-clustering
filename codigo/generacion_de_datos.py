@@ -29,7 +29,7 @@ import os
 
 class Generación:
 
-    def __init__(self, caracteristicasCerezas, caracteristicasAlbaricoques):
+    def __init__(self, caracteristicasCerezas=None, caracteristicasAlbaricoques=None):
         #CEREZAS
         self.caracteristicasCerezas = caracteristicasCerezas
 
@@ -88,7 +88,9 @@ class Generación:
         dataFrame.to_csv(dir_path+"/datas/frutas.csv", index=False,header=False)
 
     @staticmethod
-    def ejecutar(caracteristicasCerezas, caracteristicasAlbaricoques):
+    def ejecutar():
+        caracteristicasCerezas = [[17,19,1,5],[20,21,5,6],[22,23,6,7],[24,25,7,8.5],[26,27,8.5,10],[28,29,10,11.5]]
+        caracteristicasAlbaricoques =[[35,39,27],[40,44,41],[45,49,54],[50,54,74],[55,59,100]]
         gen= Generación(caracteristicasCerezas, caracteristicasAlbaricoques)
         gen.generacionDatos()
         gen.generacionCerezas()
@@ -98,10 +100,7 @@ class Generación:
         gen.guardar()
 
 if __name__=='__main__':
-    caracteristicasCerezas = [[17,19,1,5],[20,21,5,6],[22,23,6,7],[24,25,7,8.5],[26,27,8.5,10],[28,29,10,11.5]]
-    caracteristicasAlbaricoques =[[35,39,27],[40,44,41],[45,49,54],[50,54,74],[55,59,100]]
-    gen= Generación(caracteristicasCerezas, caracteristicasAlbaricoques)
-    gen.ejecutar(caracteristicasCerezas, caracteristicasAlbaricoques)
+    Generación().ejecutar()
 
 
 
