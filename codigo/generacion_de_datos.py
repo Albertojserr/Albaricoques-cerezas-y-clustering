@@ -23,71 +23,85 @@
 #---- IMPORTAR MÓDULOS --
 import random
 import pandas as pnd
+import os
 
 #---- CARACTERÍSTICAS------
 
-#CEREZAS
-caracteristicasCerezas = [[17,19,1,5],[20,21,5,6],[22,23,6,7],[24,25,7,8.5],[26,27,8.5,10],[28,29,10,11.5]]
+class Generación:
 
+    def __init__(self, caracteristicasCerezas, caracteristicasAlbaricoques):
+        #CEREZAS
+        self.caracteristicasCerezas = caracteristicasCerezas
 
+        #ALBARICOQUES: ATENCIÓN DOS CASOS DE PRUEBAS EN FUNCIÓN DEL AVANCE DE SU LECTURA
+        self.caracteristicasAlbaricoques = caracteristicasAlbaricoques
 
-#ALBARICOQUES: ATENCIÓN DOS CASOS DE PRUEBAS EN FUNCIÓN DEL AVANCE DE SU LECTURA
+    #GENERACION DE LOS DATOS
+    def generacionDatos(self):
+        # [DIAMETRO, PESO]
+        self.cantidadObservaciones = 200
 
-#Caso 1:
-#caracteristicasAlbaricoques = [[40,44,41],[45,49,54],[50,54,74],[55,59,100]]
+    def generacionCerezas(self):
+        #Generación de las cerezas
+        self.cerezas = []
+        random.seed()
+        for iteration in range(self.cantidadObservaciones):
+            #elección al azar de una característica
+            self.cereza = random.choice(self.caracteristicasCerezas)
+            #Generación de un diámetro
+            diametro = round(random.uniform(self.cereza[0], self.cereza[1]),2)
+            #Generación de un peso
+            peso = round(random.uniform(self.cereza[2], self.cereza[3]),2)
+            print ("Cereza "+str(iteration)+" "+str(self.cereza)+" : "+str(diametro)+" - "+str(peso))
+            self.cerezas.append([diametro,peso])
 
-#Caso 2:
-caracteristicasAlbaricoques = [[35,39,27],[40,44,41],[45,49,54],[50,54,74],[55,59,100]]
+    def generacionAlbaricoques(self):
+    #Generación de los albaricoques
+        self.albaricoques = []
+        random.seed()
+        for iteration in range(self.cantidadObservaciones):
+            #elección al azar de una característica
+            self.albaricoque = random.choice(self.caracteristicasAlbaricoques)
+            #Generación de un diámetro
+            diametro = round(random.uniform(self.albaricoque[0], self.albaricoque[1]),2)
+            #Generación de un peso
+            limiteMinPeso = self.albaricoque[2] / 1.10
+            limiteMaxPeso = self.albaricoque[2] * 1.10
+            peso = round(random.uniform(limiteMinPeso, limiteMaxPeso),2)
+            print ("Albaricoque "+str(iteration)+" "+str(self.albaricoque)+" : "+str(diametro)+" - "+str(peso))
+            self.albaricoques.append([diametro,peso])
 
+    #Constitución de las observaciones
+    def constitucion(self):
+        self.frutas = self.cerezas+self.albaricoques
+        print(self.frutas)
 
-#GENERACION DE LOS DATOS
-# [DIAMETRO, PESO]
-cantidadObservaciones = 200
+    #Mezcla de las observaciones
+    def mezcla(self):
+        random.shuffle(self.frutas)
 
-#Generación de las cerezas
-cerezas = []
-random.seed()
-for iteration in range(cantidadObservaciones):
-    #elección al azar de una característica
-    cereza = random.choice(caracteristicasCerezas)
-    #Generación de un diámetro
-    diametro = round(random.uniform(cereza[0], cereza[1]),2)
-    #Generación de un peso
-    peso = round(random.uniform(cereza[2], cereza[3]),2)
-    print ("Cereza "+str(iteration)+" "+str(cereza)+" : "+str(diametro)+" - "+str(peso))
-    cerezas.append([diametro,peso])
+    #Guardado de las observaciones en un archivo
+    def guardar(self):
+        dataFrame = pnd.DataFrame(self.frutas)
 
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        dataFrame.to_csv(dir_path+"/datas/frutas.csv", index=False,header=False)
 
-#Generación de los albaricoques
-albaricoques = []
-random.seed()
-for iteration in range(cantidadObservaciones):
-    #elección al azar de una característica
-    albaricoque = random.choice(caracteristicasAlbaricoques)
-    #Generación de un diámetro
-    diametro = round(random.uniform(albaricoque[0], albaricoque[1]),2)
-    #Generación de un peso
-    limiteMinPeso = albaricoque[2] / 1.10
-    limiteMaxPeso = albaricoque[2] * 1.10
-    peso = round(random.uniform(limiteMinPeso, limiteMaxPeso),2)
-    print ("Albaricoque "+str(iteration)+" "+str(albaricoque)+" : "+str(diametro)+" - "+str(peso))
-    albaricoques.append([diametro,peso])
+    @staticmethod
+    def ejecutar(caracteristicasCerezas, caracteristicasAlbaricoques):
+        gen= Generación(caracteristicasCerezas, caracteristicasAlbaricoques)
+        gen.generacionDatos()
+        gen.generacionCerezas()
+        gen.generacionAlbaricoques()
+        gen.constitucion()
+        gen.mezcla()
+        gen.guardar()
 
-
-#Constitución de las observaciones
-frutas = cerezas+albaricoques
-print(frutas)
-
-#Mezcla de las observaciones
-random.shuffle(frutas)
-
-#Guardado de las observaciones en un archivo
-dataFrame = pnd.DataFrame(frutas)
-import os
-dir_path = os.path.dirname(os.path.realpath(__file__))
-dataFrame.to_csv(dir_path+"/datas/frutas.csv", index=False,header=False)
-
-
+if __name__=='__main__':
+    caracteristicasCerezas = [[17,19,1,5],[20,21,5,6],[22,23,6,7],[24,25,7,8.5],[26,27,8.5,10],[28,29,10,11.5]]
+    caracteristicasAlbaricoques =[[35,39,27],[40,44,41],[45,49,54],[50,54,74],[55,59,100]]
+    gen= Generación(caracteristicasCerezas, caracteristicasAlbaricoques)
+    gen.ejecutar(caracteristicasCerezas, caracteristicasAlbaricoques)
 
 
 

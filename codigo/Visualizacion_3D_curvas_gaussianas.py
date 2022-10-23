@@ -24,50 +24,62 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
 import os
+
+
 dir_path = os.path.dirname(os.path.realpath(__file__))
 print(dir_path)
-frutas = pnd.read_csv(dir_path+"/datas/frutas.csv", names=['DIAMETRO','PESO'], header=None)
 
-n_components = 2
+class Visualizacion3D:
 
+    def __init__(self):
 
-# Extraer x e y
-x = frutas.DIAMETRO
-y = frutas.PESO
-# Define los límites
-deltaX = (max(x) - min(x))/10
-deltaY = (max(y) - min(y))/10
-xmin = min(x) - deltaX
-xmax = max(x) + deltaX
-ymin = min(y) - deltaY
-ymax = max(y) + deltaY
-print(xmin, xmax, ymin, ymax)
-# Crear meshgrid
-xx, yy = np.mgrid[xmin:xmax:100j, ymin:ymax:100j]
+        self.frutas = pnd.read_csv(dir_path+"/datas/frutas.csv", names=['DIAMETRO','PESO'], header=None)
 
-posiciones = np.vstack([xx.ravel(), yy.ravel()])
-values = np.vstack([x, y])
-kernel = st.gaussian_kde(values)
-f = np.reshape(kernel(posiciones).T, xx.shape)
+        self.n_components = 2
 
-fig = plt.figure(figsize=(8,8))
-ax = fig.gca()
-ax.set_xlim(xmin, xmax)
-ax.set_ylim(ymin, ymax)
-cfset = ax.contourf(xx, yy, f, cmap='coolwarm')
-ax.imshow(np.rot90(f), cmap='coolwarm', extent=[xmin, xmax, ymin, ymax])
-cset = ax.contour(xx, yy, f, colors='k')
-ax.clabel(cset, inline=1, fontsize=10)
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-plt.show()
+    # Extraer x e y
+    def extraccion(self):
 
-from mpl_toolkits.mplot3d import axes3d, Axes3D
-fig = plt.figure(figsize=(13, 7))
-ax = plt.axes(projection='3d')
-surf = ax.plot_surface(xx, yy, f, rstride=1, cstride=1, cmap='coolwarm', edgecolor='none')
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-fig.colorbar(surf, shrink=0.5, aspect=5) # añadir barra de color indicando el PDF
-ax.view_init(60, 35)
-plt.show()
+        self.x = self.frutas.DIAMETRO
+        self.y = self.frutas.PESO
+
+    # Define los límites
+    def limites(self):
+        self.deltaX = (max(self.x) - min(self.x))/10
+        self.deltaY = (max(self.y) - min(self.y))/10
+        self.xmin = min(self.x) - self.deltaX
+        self.xmax = max(self.x) + self.deltaX
+        self.ymin = min(self.y) - self.deltaY
+        self.ymax = max(self.y) + self.deltaY
+        print(self.xmin, self.xmax, self.ymin, self.ymax)
+
+    # Crear meshgrid
+    def meshgrid(self):
+        self.xx, self.yy = np.mgrid[self.xmin:self.xmax:100j, self.ymin:self.ymax:100j]
+
+        posiciones = np.vstack([self.xx.ravel(), self.yy.ravel()])
+        values = np.vstack([self.x, self.y])
+        kernel = st.gaussian_kde(values)
+        f = np.reshape(kernel(posiciones).T, xx.shape)
+
+        fig = plt.figure(figsize=(8,8))
+        ax = fig.gca()
+        ax.set_xlim(xmin, xmax)
+        ax.set_ylim(ymin, ymax)
+        cfset = ax.contourf(xx, yy, f, cmap='coolwarm')
+        ax.imshow(np.rot90(f), cmap='coolwarm', extent=[xmin, xmax, ymin, ymax])
+        cset = ax.contour(xx, yy, f, colors='k')
+        ax.clabel(cset, inline=1, fontsize=10)
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        plt.show()
+
+        from mpl_toolkits.mplot3d import axes3d, Axes3D
+        fig = plt.figure(figsize=(13, 7))
+        ax = plt.axes(projection='3d')
+        surf = ax.plot_surface(xx, yy, f, rstride=1, cstride=1, cmap='coolwarm', edgecolor='none')
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        fig.colorbar(surf, shrink=0.5, aspect=5) # añadir barra de color indicando el PDF
+        ax.view_init(60, 35)
+        plt.show()
