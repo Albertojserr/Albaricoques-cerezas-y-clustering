@@ -84,3 +84,14 @@ class Visualizacion3D:
         fig.colorbar(surf, shrink=0.5, aspect=5) # añadir barra de color indicando el PDF
         ax.view_init(60, 35)
         plt.show()
+
+    @staticmethod
+    def ejecutar():
+        vis=Visualizacion3D()
+        vis.extraccion()
+        vis.limites()
+        vis.meshgrid()
+
+if __name__=='__main__':
+    vis=Visualizacion3D()
+    vis.ejecutar()
