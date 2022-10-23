@@ -31,7 +31,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 print(dir_path)
 #para cogerlo de otra carpeta usamos lo siguiente
 #dir_path=dir_path+"/../teoria"
-#Caraga de datos
+#Carga de datos
 class Aprendizaje:
     def __init__(self):
         self.frutas = pnd.read_csv(dir_path+"/datas/frutas.csv", names=['DIAMETRO','PESO'], header=None)
@@ -126,7 +126,7 @@ class Aprendizaje:
         apr.aprKMeans()
         apr.clasificaciones()
         apr.busqueda()
-        #tercer plot
+        #tercer plot, tiene mayor precisión
         apr.Gauss()
 
 if __name__=="__main__":

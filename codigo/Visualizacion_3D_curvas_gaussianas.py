@@ -23,8 +23,10 @@ import pandas as pnd
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
-
-frutas = pnd.read_csv("/home/alberto/Documentos/UAX/Curso 3/Desarrollo Orientado a Objetos/Albaricoques-cerezas-y-clustering/código cap09/datas/frutas.csv", names=['DIAMETRO','PESO'], header=None)
+import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+print(dir_path)
+frutas = pnd.read_csv(dir_path+"/datas/frutas.csv", names=['DIAMETRO','PESO'], header=None)
 
 n_components = 2
 

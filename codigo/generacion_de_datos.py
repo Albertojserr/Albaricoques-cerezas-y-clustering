@@ -34,10 +34,10 @@ caracteristicasCerezas = [[17,19,1,5],[20,21,5,6],[22,23,6,7],[24,25,7,8.5],[26,
 #ALBARICOQUES: ATENCIÓN DOS CASOS DE PRUEBAS EN FUNCIÓN DEL AVANCE DE SU LECTURA
 
 #Caso 1:
-caracteristicasAlbaricoques = [[40,44,41],[45,49,54],[50,54,74],[55,59,100]]
+#caracteristicasAlbaricoques = [[40,44,41],[45,49,54],[50,54,74],[55,59,100]]
 
 #Caso 2:
-#caracteristicasAlbaricoques = [[35,39,27],[40,44,41],[45,49,54],[50,54,74],[55,59,100]]
+caracteristicasAlbaricoques = [[35,39,27],[40,44,41],[45,49,54],[50,54,74],[55,59,100]]
 
 
 #GENERACION DE LOS DATOS
@@ -83,7 +83,9 @@ random.shuffle(frutas)
 
 #Guardado de las observaciones en un archivo
 dataFrame = pnd.DataFrame(frutas)
-dataFrame.to_csv("datas/frutas.csv", index=False,header=False)
+import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dataFrame.to_csv(dir_path+"/datas/frutas.csv", index=False,header=False)
 
 
 
